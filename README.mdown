@@ -11,4 +11,4 @@ Also included are tools for wrapping the feature ranking/selection process in an
 
 This entire process can be massively parallelized, and an example implementation is included that uses the [SGE](http://en.wikipedia.org/wiki/Oracle_Grid_Engine) cluster interface.
 
-Contact: John Colby <johncolby@ucla.edu>
+Contact: [John Colby](mailto:johncolby@ucla.edu>)
