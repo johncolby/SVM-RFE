@@ -3,7 +3,11 @@
 # Input arguments:
 # nfold
 
+# Example:
 # msvmRFE_submit.R nfold=10
+
+# Copyright (C) 2011  John Colby
+# http://github.com/johncolby/SVM-RFE
 
 # Parse command line arguments    
 args=(commandArgs(TRUE))   

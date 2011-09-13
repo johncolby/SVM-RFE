@@ -1,5 +1,8 @@
 #! /usr/bin/env Rscript
 
+# Copyright (C) 2011  John Colby
+# http://github.com/johncolby/SVM-RFE
+
 source('../../msvmRFE.R')
 
 files = list.files(pattern='feat_')

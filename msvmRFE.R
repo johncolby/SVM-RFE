@@ -1,3 +1,6 @@
+# Copyright (C) 2011  John Colby
+# http://github.com/johncolby/SVM-RFE
+
 svmRFE.wrap <- function(test.fold, X, ...) {
 # Wrapper to run svmRFE function while omitting a given test fold
     train.data = X[-test.fold, ]
@@ -57,7 +60,7 @@ svmRFE <- function(X, k=1, halve.above=5000) {
         }
         
         if(length(i.surviving) > halve.above) {
-            # Cut features in half until less than 10k
+            # Cut features in half until less than halve.above
             nfeat = length(i.surviving)
             ncut  = round(nfeat / 2)
             n     = nfeat - ncut

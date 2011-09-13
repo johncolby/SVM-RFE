@@ -1,5 +1,8 @@
 #! /usr/bin/env Rscript
 
+# Copyright (C) 2011  John Colby
+# http://github.com/johncolby/SVM-RFE
+
 ifold = as.numeric(Sys.getenv('SGE_TASK_ID'))
 
 # Enter the code you want to parallelize...

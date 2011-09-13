@@ -3,8 +3,12 @@
 # Input arguments:
 # nfeat
 
+# Example:
 # featsweep_submit.R nfeat=1:500
 # featsweep_submit.R 'nfeat=c(1:100, seq(102, 500, by=2))'
+
+# Copyright (C) 2011  John Colby
+# http://github.com/johncolby/SVM-RFE
 
 # Parse command line arguments    
 args=(commandArgs(TRUE))   

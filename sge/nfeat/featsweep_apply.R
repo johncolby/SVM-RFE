@@ -3,6 +3,9 @@
 # Input arguments:
 # i
 
+# Copyright (C) 2011  John Colby
+# http://github.com/johncolby/SVM-RFE
+
 # Parse command line arguments    
 args=(commandArgs(TRUE))   
 for(i in 1:length(args)){
