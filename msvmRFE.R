@@ -116,8 +116,8 @@ FeatSweep.wrap <- function(i, results, input) {
                       validation.y = input[x$test.data.ids, 1],
                       # Optimize SVM hyperparamters
                       ranges       = tune(svm,
-                                          train.x = input[x$train.data.ids, 1+x$feature.ids[1:i]]
-                                          train.y = input[x$train.data.ids, 1]
+                                          train.x = input[x$train.data.ids, 1+x$feature.ids[1:i]],
+                                          train.y = input[x$train.data.ids, 1],
                                           ranges  = list(gamma=2^(-12:0), cost=2^(-6:6)))$best.par,
                       tunecontrol  = tune.control(sampling='fix'))$perf)
         
