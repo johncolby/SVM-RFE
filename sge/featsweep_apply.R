@@ -15,10 +15,10 @@ for(i in 1:length(args)){
 # Enter the code you want to parallelize...
 library('e1071')
 
-source('../../msvmRFE.R')
+source('../msvmRFE.R')
 
-load('../results.Rdata')
-load('../input.Rdata')
+load('results.Rdata')
+load('input.Rdata')
 
 results.tmp = FeatSweep.wrap(i, results, input)
 

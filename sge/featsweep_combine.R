@@ -3,7 +3,7 @@
 # Copyright (C) 2011  John Colby
 # http://github.com/johncolby/SVM-RFE
 
-source('../../msvmRFE.R')
+source('../msvmRFE.R')
 
 files = list.files(pattern='feat_')
 nfeat = sort(as.numeric(gsub('feat_([^\\.]+).Rdata', '\\1', files)))
@@ -19,7 +19,7 @@ for(i in nfeat){
 save(featsweep, file='featsweep.Rdata')
 
 # Calculate the "chance" rate
-load('../input.Rdata')
+load('input.Rdata')
 no.info = 1 - max(prop.table(table(input[,1])))
 
 # Generate figures
