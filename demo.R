@@ -25,7 +25,7 @@ folds = lapply(1:nfold, function(x) which(folds == x))
 folds
 
 # Perform feature ranking on all training sets
-results = lapply(folds, 'svmRFE.wrap', input, k=10, halve.above=100)
+results = lapply(folds, svmRFE.wrap, input, k=10, halve.above=100)
 length(results)
 results
 
@@ -40,6 +40,7 @@ featsweep
 # Make plot
 no.info = min(prop.table(table(input[,1])))
 errors = sapply(featsweep, function(x) ifelse(is.null(x), NA, x$error))
+
+dev.new(width=4, height=4, bg='white')
 PlotErrors(errors, no.info=no.info)
-dev.print(png, width=4, units='in', res=100)
 dev.off()

@@ -136,7 +136,6 @@ PlotErrors <- function(errors, errors2=NULL, no.info=0.5, ylim=range(c(errors, e
         text(which.min(x), min(x, na.rm=T), paste(which.min(x), '-', format(min(x, na.rm=T), dig=3)), pos=4, col='red', cex=0.75)
     }
     
-    dev.new(width=4, height=4, bg='white')
     plot(errors, type='n', ylim=ylim, xlab=xlab, ylab=ylab)
     AddLine(errors)
     if(!is.null(errors2)) AddLine(errors2, 'gray30')
