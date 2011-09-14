@@ -6,8 +6,8 @@
 # Set up R environment
 set.seed(12345)
 library(e1071)
-source('../msvmRFE.R')
-load('input.Rdata')
+source('msvmRFE.R')
+load('demo/input.Rdata')
 
 # Take a look at the expected input structure
 dim(input)
