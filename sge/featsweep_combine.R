@@ -24,8 +24,11 @@ no.info = 1 - max(prop.table(table(input[,1])))
 
 # Generate figures
 errors = sapply(featsweep, function(x) ifelse(is.null(x), NA, x$error))
+
+dev.new(width=4, height=4, bg='white')
 PlotErrors(errors, no.info=no.info)
 dev.off()
+dev.new(width=4, height=4, bg='white')
 PlotErrors(errors, no.info=no.info, ylim=c(0,0.5))
 dev.off()
 
