@@ -12,7 +12,7 @@ svmRFE.wrap <- function(test.fold, X, ...) {
     return(list(feature.ids=features.ranked, train.data.ids=row.names(train.data), test.data.ids=row.names(test.data)))
 }
 
-svmRFE <- function(X, k=1, halve.above=50,...) {
+svmRFE <- function(X, k=1, halve.above=5000,...) {
 # Feature selection with Multiple SVM Recursive Feature Elimination (RFE) algorithm
     n = ncol(X) - 1
     
@@ -49,7 +49,7 @@ svmRFE <- function(X, k=1, halve.above=50,...) {
             c    = vbar / vsd
         } else {
             # Only do 1 pass (i.e. regular SVM-RFE)
-            w = getWeights2(NULL, X[, c(1, 1+i.surviving)])
+            w = getWeights(NULL, X[, c(1, 1+i.surviving)])
             c = w * w
         }
 
@@ -86,17 +86,6 @@ svmRFE <- function(X, k=1, halve.above=50,...) {
     close(pb)
 
     return (ranked.list)
-}
-
-getWeights <- function(test.fold, X) {
-# Fit a linear SVM model and obtain feature weights
-    train.data = X
-    if(!is.null(test.fold)) train.data = X[-test.fold, ]
-    
-    svmModel = svm(train.data[, -1], train.data[, 1], cost=10, cachesize=500,
-    scale=F, type="C-classification", kernel="linear")
-    
-    t(svmModel$coefs) %*% svmModel$SV
 }
 
 
@@ -179,7 +168,7 @@ PlotErrors <- function(errors, errors2=NULL, no.info=0.5, ylim=range(c(errors, e
     abline(h=no.info, lty=3)
 }
 
-getWeights2 <- function(test.fold, X) {
+getWeights <- function(test.fold, X) {
   # Fit a linear SVM model and obtain feature weights
   train.data = X
   if(!is.null(test.fold)) train.data = X[-test.fold, ]
