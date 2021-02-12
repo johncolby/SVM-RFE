@@ -12,7 +12,7 @@ svmRFE.wrap <- function(test.fold, X, ...) {
     return(list(feature.ids=features.ranked, train.data.ids=row.names(train.data), test.data.ids=row.names(test.data)))
 }
 
-svmRFE <- function(X, k=1, halve.above=5000) {
+svmRFE <- function(X, k=1, halve.above=5000,...) {
 # Feature selection with Multiple SVM Recursive Feature Elimination (RFE) algorithm
     n = ncol(X) - 1
     
@@ -54,7 +54,9 @@ svmRFE <- function(X, k=1, halve.above=5000) {
         }
 
         # Rank the features
-        ranking = sort(c, index.return=T)$ix
+        rankingCriteria = 0
+        for(i in 1:ncol(c))rankingCriteria[i] = mean(c[,i])
+        ranking = sort(rankingCriteria, index.return=T)$ix
         if(length(i.surviving) == 1) {
             ranking = 1
         }
@@ -86,15 +88,39 @@ svmRFE <- function(X, k=1, halve.above=5000) {
     return (ranked.list)
 }
 
-getWeights <- function(test.fold, X) {
-# Fit a linear SVM model and obtain feature weights
-    train.data = X
-    if(!is.null(test.fold)) train.data = X[-test.fold, ]
+
+svm.weights<-function(model){
+  w=0
+  if(model$nclasses==2){
+    w=t(model$coefs)%*%model$SV
+  }else{    #when we deal with OVO svm classification
+    ## compute start-index
+    start <- c(1, cumsum(model$nSV)+1)
+    start <- start[-length(start)]
     
-    svmModel = svm(train.data[, -1], train.data[, 1], cost=10, cachesize=500,
-    scale=F, type="C-classification", kernel="linear")
+    calcw <- function (i,j) {
+      ## ranges for class i and j:
+      ri <- start[i] : (start[i] + model$nSV[i] - 1)
+      rj <- start[j] : (start[j] + model$nSV[j] - 1)
+      
+      ## coefs for (i,j):
+      coef1 <- model$coefs[ri, j-1]
+      coef2 <- model$coefs[rj, i]
+      ## return w values:
+      w=t(coef1)%*%model$SV[ri,]+t(coef2)%*%model$SV[rj,]
+      return(w)
+    }
     
-    t(svmModel$coefs) %*% svmModel$SV
+    W=NULL
+    for (i in 1 : (model$nclasses - 1)){
+      for (j in (i + 1) : model$nclasses){
+        wi=calcw(i,j)
+        W=rbind(W,wi)
+      }
+    }
+    w=W
+  }
+  return(w)
 }
 
 WriteFeatures <- function(results, input, save=T, file='features_ranked.txt') {
@@ -140,4 +166,14 @@ PlotErrors <- function(errors, errors2=NULL, no.info=0.5, ylim=range(c(errors, e
     AddLine(errors)
     if(!is.null(errors2)) AddLine(errors2, 'gray30')
     abline(h=no.info, lty=3)
+}
+
+getWeights <- function(test.fold, X) {
+  # Fit a linear SVM model and obtain feature weights
+  train.data = X
+  if(!is.null(test.fold)) train.data = X[-test.fold, ]
+  
+  svmModel = svm(train.data[, -1], train.data[, 1], cost=10, cachesize=500,
+                 scale=F, type="C-classification", kernel="linear")
+  return(svm.weights(svmModel))
 }
